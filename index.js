@@ -28,12 +28,12 @@ fs.readFile(path.join(process.env.HOME, '.gmrrc'))
         'Docs are at https://github.com/mythmon/gmrjs/blob/master/README.md';
 })
 .then(function() {
-  return gmr.get('/AuthenticateUser');
+  return gmr.getPlayerID();
 })
 .then(function(playerId) {
   myPlayerId = playerId;
   console.log('You are playerId', myPlayerId);
-  return gmr.get('/GetGamesAndPlayers', {playerIDText: playerId});
+  return gmr.getGamesAndPlayers([playerId]);
 })
 .then(function(gamesAndPlayers) {
   console.log('Pick a game');
@@ -52,24 +52,8 @@ fs.readFile(path.join(process.env.HOME, '.gmrrc'))
     console.log("It's not your turn in that game!");
   } else {
     console.log('Downloading');
-    var localFile = fs.createWriteStream('./GMR - ' + game.Name + '.Civ5Save');
-    return new Promise(function(resolve, reject) {
-      var download = gmr.makeRequest('/GetLatestSaveFileBytes', {gameId: game.GameId}, function(err, req, body) {
-        if (err) {
-          reject(err);
-        } else if (req.statusCode !== 200) {
-          reject(body);
-        } else {
-          resolve();
-        }
-      });
-      download.pipe(localFile);
-    })
-    .catch(function(err) {
-      localFile.close();
-      fs.unlink(localFile.path);
-      throw err;
-    });
+    var savePath = './GMR - ' + game.Name + '.Civ5Save';
+    return gmr.downloadSave(game.GameId, savePath);
   }
 })
 .catch(function(err) {
