@@ -28,7 +28,7 @@ fs.readFile(path.join(process.env.HOME, '.gmrrc'))
 })
 .then(function(gamesAndPlayers) {
   console.log('Pick a game');
-  return ui.menu(gamesAndPlayers.games.map(function(game) {
+  return ui.menu(gamesAndPlayers.Games.map(function(game) {
     var msg = game.Name + ' - ' + game.CurrentTurn.UserId + ' - ';
     game.myTurn = game.CurrentTurn.UserId === myPlayerId;
     msg += game.myTurn ? 'Your turn' : ' Wait';
