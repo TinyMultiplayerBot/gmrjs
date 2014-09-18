@@ -8,6 +8,7 @@ var ini = require('ini');
 
 var GMR = require('./lib/gmr');
 var ui = require('./lib/ui');
+var getConfig = require('./lib/getConfig');
 
 
 var gmr;
@@ -15,19 +16,10 @@ var config;
 var myPlayerId;
 
 
-fs.readFile(path.join(process.env.HOME, '.gmrrc'))
-.then(function(data) {
-  config = ini.parse(data.toString());
-  if (!('auth_key' in config)) {
-    throw new Error('Invalid configuration: auth_key is required.');
-  }
+getConfig()
+.then(function(conf) {
+  config = conf;
   gmr = new GMR(config.auth_key);
-})
-.catch(function(err) {
-  throw err.toString() + '\n' +
-        'Docs are at https://github.com/mythmon/gmrjs/blob/master/README.md';
-})
-.then(function() {
   return gmr.getPlayerID();
 })
 .then(function(playerId) {
