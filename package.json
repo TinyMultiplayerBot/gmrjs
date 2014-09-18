@@ -1,13 +1,17 @@
 {
   "name": "gmrjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Giant Multiplayer Robot client.",
   "main": "index.js",
   "author": "Mike Cooper <mythmon@gmail.com>",
   "license": "MIT",
   "repository": "https://github.com/mythmon/gmrjs.git",
+  "bin": {
+    "gmrjs": "./index.js"
+  },
   "dependencies": {
     "es6-promises": "^1.0.8",
+    "fs-promise": "^0.2.0",
     "ini": "^1.3.0",
     "request": "^2.40.0"
   }
