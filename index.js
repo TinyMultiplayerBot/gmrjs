@@ -18,7 +18,16 @@ var myPlayerId;
 fs.readFile(path.join(process.env.HOME, '.gmrrc'))
 .then(function(data) {
   config = ini.parse(data.toString());
+  if (!('auth_key' in config)) {
+    throw new Error('Invalid configuration: auth_key is required.');
+  }
   gmr = new GMR(config.auth_key);
+})
+.catch(function(err) {
+  throw err.toString() + '\n' +
+        'Docs are at https://github.com/mythmon/gmrjs/blob/master/README.md';
+})
+.then(function() {
   return gmr.get('/AuthenticateUser');
 })
 .then(function(playerId) {
@@ -64,6 +73,9 @@ fs.readFile(path.join(process.env.HOME, '.gmrrc'))
   }
 })
 .catch(function(err) {
-  console.error('error', err.stack || err);
+  console.error(err.stack || err);
+  process.exit(1);
 })
-.then(process.exit);
+.then(function() {
+  process.exit(0);
+});
