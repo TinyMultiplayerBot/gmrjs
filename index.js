@@ -43,9 +43,12 @@ getConfig()
   if (!game.myTurn) {
     console.log("It's not your turn in that game!");
   } else {
-    console.log('Downloading');
-    var savePath = './GMR - ' + game.Name + '.Civ5Save';
-    return gmr.downloadSave(game.GameId, savePath);
+    process.stdout.write('Downloading... ');
+    var savePath = path.join(config.save_path, 'GMR - ' + game.Name + '.Civ5Save');
+    return gmr.downloadSave(game.GameId, savePath)
+    .then(function() {
+      process.stdout.write('Done! Save is at ' + savePath);
+    });
   }
 })
 .catch(function(err) {
