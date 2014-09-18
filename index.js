@@ -47,7 +47,7 @@ getConfig()
     var savePath = path.join(config.save_path, 'GMR - ' + game.Name + '.Civ5Save');
     return gmr.downloadSave(game.GameId, savePath)
     .then(function() {
-      process.stdout.write('Done! Save is at ' + savePath);
+      console.log('Done! Save is at ' + savePath);
     });
   }
 })
