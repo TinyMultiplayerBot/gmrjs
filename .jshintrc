@@ -1,0 +1,15 @@
+{
+  "asi": false,
+  "eqeqeq": true,
+  "esnext": true,
+  "evil": false,
+  "loopfunc": true,
+  "node": true,
+  "quotmark": false,
+  "strict": false,
+  "undef": true,
+
+  "globals": {
+    "Promise": true
+  }
+}
